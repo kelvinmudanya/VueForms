@@ -1,26 +1,23 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <app-header></app-header>
+  <div class="container">
+    <index-comp></index-comp>
+  </div>
+  <app-footer></app-footer>
+ 
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import IndexComp from './components/contact/IndexComp.vue';
+
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  components:{
+    IndexComp
+
   }
+
+ 
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
