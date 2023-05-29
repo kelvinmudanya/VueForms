@@ -1,5 +1,7 @@
 <template>
-    <form>
+    <form
+    @submit="checkForm"
+    >
         <div class = "row">
             <div class = "col-xl-12">
                 <h1> Contact us</h1>
@@ -77,20 +79,36 @@
                     <label for="country">
                         Country
                     </label>
-                    <select class="form-control" id="country">
-                        <option>
-                            FrancisLand
+                    <select class="form-control" id="country"
+                    v-model="formData.country">
+                        <option
+                        v-for="(country, index) in countries"
+                        :key="index+country"
+                        >
+                            {{country}}
                         </option>
                     </select>
 
                 </div>
                 <button 
                 class="btn btn-primary"
-                @click.prevent="submitForm"
+                @click.prevent="checkForm"
                 >
                     Submit
 
                 </button>
+                <hr/>
+                <p v-if="this.errors.length">
+                <b>
+                    You have some errors
+                </b>
+                <ul>
+                    <li v-for="error in errors" :key="error">
+                        {{ error }}
+
+                    </li>
+                </ul>
+            </p>
 
 
             </div>
@@ -104,22 +122,49 @@
 export default{
     data(){
         return{
+            errors:[],
+            countries:['Kenya','Uganda','Tanzania','Rwanda'],
             formData:{
                 name:'',
                 email:'',
                 subject:'',
                 message:'Dear Kelvin, ',
                 extras:[],
-                gender:'alien'
-
+                gender:'alien',
+                country:''
             }
         }
     },
     methods:{
+      
+        checkForm(e){
+            console.log('check name')
+            e.preventDefault();
+            this.errors = [];
+            console.log(this.errors)
+            if(!this.formData.name){
+                this.errors.push('sorry, name is required')
+              
+            }
+           if(!this.formData.email){
+                this.errors.push('email is required')
+            }
+            else if(!this.validEmail(this.email)){
+                this.errors.push('sorry, the email is not valid')
+            }
+            if(!this.errors.length){
+                this.submitForm()
+            }
+        },
         submitForm(){
-            console.log(JSON.stringify(this.formData))
+            console.log(JSON.stringify(this.formData));
+            
+        },
+        validEmail(){
+            const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(this.email);
+        
         }
-
     }
 }
 </script>
